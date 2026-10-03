@@ -1,0 +1,28 @@
+name: TDS Location Data Daily
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch TDS location data
+        run: |
+          python - <<'PY'
+          import requests
+          import json
+          url = 'https://api.github.com/repos/24f2004978/TDS'
+          data = requests.get(url).json()
+          print(json.dumps(data, indent=2))
+          PY
+
+      - name: 24f2004978@ds.study.iitm.ac.in
+        run: echo "TDS workflow triggered successfully"
